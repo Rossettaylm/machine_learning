@@ -43,13 +43,14 @@ theta = theta.T
 
 
 def main():
-    alpha = 0.01
-    iters = 1000
+    # alpha = 0.01
+    # iters = 1000
     # final_theta, cost = gradientDescent(X, y, theta, alpha, iters)
     print(costFunctionJ(X, y, theta))
     x = np.linspace(data.population.min(), data.population.max(), 100)
     f = theta[0, 0] + theta[0, 1]*x
-    fig, ax = plt.subplots(figsize=(12, 8))
+    plt.figure(figsize=(12, 8))
+    ax = plt.subplot()
     ax.scatter(data.population, data.profit, c='r')
     ax.plot(x, f, c='b')
     plt.show()
