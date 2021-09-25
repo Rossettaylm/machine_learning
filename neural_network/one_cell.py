@@ -57,7 +57,7 @@ def main():
     nn = Network()
     epochs = 300
     nn.SGD(epochs, alpha=0.15)
-    plt.figure(figsize=(12, 8))
+    plt.figure(figsize=(8, 6))
     plt.plot(range(epochs), nn.costs, c='b',
              linewidth=3, label='cost function')
     plt.legend()
