@@ -17,7 +17,7 @@ class Network(object):
             a = sigmoid(np.dot(w, a) + b)
         return a
 
-    def SGD(self, training_data, epochs, mini_batch_size, alpha, test_data=None):
+    def sgd(self, training_data, epochs, mini_batch_size, alpha, test_data=None):
         """对训练集数据进行随机梯度下降训练，得到合适的权重和偏执
 
         Args:
@@ -31,10 +31,6 @@ class Network(object):
         training_data = list(training_data)
         n = len(training_data)
 
-        if test_data:
-            test_data = list(test_data)
-            n_test = len(test_data)
-
         for j in range(epochs):
             np.random.shuffle(training_data)
             mini_batches = [training_data[k: k+mini_batch_size]
@@ -42,6 +38,8 @@ class Network(object):
             for mini_batch in mini_batches:
                 self.update_mini_batch(mini_batch, alpha)
             if test_data:
+                test_data = list(test_data)
+                n_test = len(test_data)
                 print('Epoch {0}: {1} / {2}'.format(j,
                       self.evaluate(test_data), n_test))
             else:
@@ -89,12 +87,12 @@ class Network(object):
         # second-last layer, and so on.  It's a renumbering of the
         # scheme in the book, used here to take advantage of the fact
         # that Python can use negative indices in lists.
-        for l in range(-2, -self.num_layers, -1):
-            z = zs[l]
+        for layer in range(-2, -self.num_layers, -1):
+            z = zs[layer]
             sp = sigmoid_prime(z)
-            delta = np.dot(self.weights[l+1].T, delta) * sp
-            delta_nabla_b[l] = delta
-            delta_nabla_w[l] = np.dot(delta, activations[l-1].T)
+            delta = np.dot(self.weights[layer+1].T, delta) * sp
+            delta_nabla_b[layer] = delta
+            delta_nabla_w[layer] = np.dot(delta, activations[layer-1].T)
         return delta_nabla_b, delta_nabla_w
 
     def evaluate(self, test_data):
