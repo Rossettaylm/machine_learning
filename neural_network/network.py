@@ -3,6 +3,7 @@ import numpy as np
 
 class Network(object):
     def __init__(self, size) -> None:
+        # size为包含每层神经元数量的列表，如[784, 16, 10]
         self.size = size
         self.num_layers = len(size)
         self.biases = [np.random.randn(y, 1) for y in size[1:]]
@@ -60,9 +61,9 @@ class Network(object):
             nabla_b = [nb + dnb for nb, dnb in zip(nabla_b, delta_nabla_b)]
             nabla_w = [nw + dnw for nw, dnw in zip(nabla_w, delta_nabla_w)]
         self.biases = [b - (alpha / m) * nb for b,
-                                                nb in zip(self.biases, nabla_b)]
+                       nb in zip(self.biases, nabla_b)]
         self.weights = [w - (alpha / m) * nw for w,
-                                                 nw, in zip(self.weights, nabla_w)]
+                        nw, in zip(self.weights, nabla_w)]
 
     def backpropagation(self, x, y):
         delta_nabla_b = [np.zeros(b.shape) for b in self.biases]
@@ -78,7 +79,7 @@ class Network(object):
             activations.append(activation)
         # backward pass
         delta = self.cost_derivative(activations[-1], y) * \
-                sigmoid_prime(zs[-1])
+            sigmoid_prime(zs[-1])
         delta_nabla_b[-1] = delta
         delta_nabla_w[-1] = np.dot(delta, activations[-2].T)
         # Note that the variable l in the loop below is used a little
@@ -111,5 +112,3 @@ def sigmoid(z):
 
 def sigmoid_prime(z):
     return sigmoid(z) * (1 - sigmoid(z))
-
-
